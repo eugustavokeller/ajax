@@ -12,6 +12,8 @@
         <script>
             function requisitarPagina(url) {
                 if(!document.getElementById('loading')) {
+                    document.getElementById('conteudo').innerHTML = '';
+
                     let imgLoading = document.createElement('img')
                     imgLoading.id = 'loading'
                     imgLoading.src = 'loading.gif'
@@ -32,9 +34,15 @@
 
                 // de alguma forma que fique olhando para o progresso da requisição
                 ajax.onreadystatechange = () => {
-                    if(ajax.readyState == 4) {
-                        console.log('requisicao finalizado com sucesso')
-                        document.getElementById('loading').remove()
+
+                    console.log(`O status da req ${ajax.status}`)
+                    if(ajax.readyState == 4 && ajax.status == 200) {
+                        document.getElementById('conteudo').innerHTML = 'requisicao finalizado com sucesso, com status 200'
+                        //document.getElementById('loading').remove()
+                    }
+                    if(ajax.readyState == 4 && ajax.status == 404) {
+                        document.getElementById('conteudo').innerHTML = 'requisicao finalizado com sucesso,porém o recurso não foi encontrado com status 404'
+                        //document.getElementById('loading').remove()
                     }
                 }
                 
@@ -63,7 +71,7 @@
 	    		<div class="col-md-4 center"></div>
 	    		<div class="col-md-4 center">
 	    			<a href="#" class="btn btn-primary" onclick="requisitarPagina('pagina_1_conteudo.php')">Página 1</a>
-	    			<a href="#" class="btn btn-primary" onclick="requisitarPagina('pagina_2_conteudo.html')">Página 2</a>
+	    			<a href="#" class="btn btn-primary" onclick="requisitarPagina('pagina_5_conteudo.html')">Página 2</a>
 	    			<a href="#" class="btn btn-primary" onclick="requisitarPagina('pagina_3_conteudo.html')">Página 3</a>
 	    		</div>
 	    		<div class="col-md-4 center"></div>
